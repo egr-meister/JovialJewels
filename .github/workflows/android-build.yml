@@ -10,24 +10,35 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 45
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
+      # Uses the Android SDK preinstalled on the runner (no third-party setup action):
+      # licenses are accepted non-interactively, then Platform 36 + Build Tools 36.0.0 are installed.
       - name: Install SDK Platform 36 and Build Tools 36.0.0
-        run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "platform-tools"
+        run: |
+          set -euo pipefail
+          SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          SDKMANAGER="$SDK/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SDKMANAGER" ]; then
+            SDKMANAGER=$(ls -d "$SDK"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -n 1)
+          fi
+          echo "Using $SDKMANAGER"
+          yes | "$SDKMANAGER" --sdk_root="$SDK" --licenses > /dev/null || true
+          "$SDKMANAGER" --sdk_root="$SDK" --install "platforms;android-36" "build-tools;36.0.0" "platform-tools" > /dev/null
+          ls "$SDK/platforms" "$SDK/build-tools"
+          echo "ANDROID_HOME=$SDK" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$SDK" >> "$GITHUB_ENV"
 
       - name: Set up Gradle 8.9 (no committed wrapper needed)
         uses: gradle/actions/setup-gradle@v4
