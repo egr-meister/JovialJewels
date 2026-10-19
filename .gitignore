@@ -1,0 +1,31 @@
+# Gradle / build
+.gradle/
+build/
+**/build/
+!gradle/wrapper/gradle-wrapper.properties
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+.kotlin/
+captures/
+.externalNativeBuild/
+.cxx/
+local.properties
+
+# Signing — never commit keystores or passwords
+*.jks
+*.keystore
+*.p12
+*.pfx
+keystore.properties
+*.b64
+
+# Release outputs
+*.apk
+*.aab
+output-metadata.json
+
+# OS
+.DS_Store
+Thumbs.db

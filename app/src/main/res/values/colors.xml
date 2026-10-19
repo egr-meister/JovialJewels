@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Royal Jester palette (mirrors ui/theme/Color.kt) -->
+    <color name="jj_amethyst">#FF1C0A36</color>
+    <color name="jj_plum">#FF3E1670</color>
+    <color name="jj_ruby">#FFD3214F</color>
+    <color name="jj_topaz">#FFFFC93C</color>
+</resources>

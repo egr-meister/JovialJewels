@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Pre-API-31 splash: the window background is the themed color with a small gem in the middle.
+         Compose draws over it as soon as the first frame is ready. -->
+    <style name="Theme.JovialJewels" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+</resources>
